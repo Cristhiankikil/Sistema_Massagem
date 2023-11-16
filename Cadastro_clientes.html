@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro de Clientes</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Cadastro de Clientes</h1>
+    <div class="form-group">
+      <label for="Nome">Nome Completo:</label>
+      <input type="text" id="nome" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="cpf">CPF:</label>
+      <input type="text" id="CPF" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="rg">RG:</label>
+      <input type="text" id="RG" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="data_nasc">Data de Nascimento:</label>
+      <input type="date" id="data_nasc" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="telefone">Fone/Celular:</label>
+      <input type="text" id="telefone" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="CEP">CEP:</label>
+      <input type="text" id="cep" class="form-control">
+    </div>
+    <br>
+    <div class="form-group">
+      <button type="submit" onclick="enviarDados()" class="btn btn-primary">Salvar Dados</button>
+      <p style="display: inline-block; margin-left: 10px;">Voltar para o início:</p>
+      <a href="inicio.html">
+        <img src="https://cdn.icon-icons.com/icons2/1147/PNG/512/1486486306-arrow-back-before-circular-circle-rewind_81243.png" style="width: 60px; height: 60px;">
+      </a>
+    </div>
+  </div>
+  <script src="https://replit.com/public/js/replit-badge-v2.js" theme="dark" position="bottom-right"></script>
+  <script>
+    function enviarDados() {
+      var nome = $("#nome").val();
+      var cpf = $("#CPF").val();
+      var rg = $("#RG").val();
+      var data_nasc = $("#data_nasc").val();
+      var telefone = $("#telefone").val();
+      var email = $("#email").val();
+      var cep = $("#cep").val();
+
+      if (!nome || !data_nasc || !cep || !telefone) {
+        alert("Por favor, preencha todos os campos obrigatórios.");
+        if (!nome) {
+          $("#nome").focus();
+        } else if (!data_nasc) {
+          $("#data_nasc").focus();
+        } else if (!cep) {
+          $("#cep").focus();
+        } else if (!telefone) {
+          $("#telefone").focus();
+        }
+        return;
+      } else if (nome.length < 6) {
+        alert("O nome é muito curto!");
+        $("#nome").focus();
+        return;
+      }
+
+      var dados = {
+        nome: nome,
+        cpf: cpf,
+        rg: rg,
+        data_nasc: data_nasc,
+        telefone: telefone,
+        email: email,
+        cep: cep
+      };
+
+      $.ajax({
+        type: "POST",
+        url: "salvar.php",
+        data: dados,
+        success: function(response) {
+          alert("Dados Salvos com Sucesso!");
+          console.log(response);
+        },
+        error: function(error) {
+          alert("Falha ao salvar!");
+          console.log(error);
+        }
+      });
+    }
+  </script>
+
+</body>
+
+</html>
